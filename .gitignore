@@ -56,3 +56,6 @@ build
 */build
 build/*
 managed_components
+
+# generated data
+.jpg
