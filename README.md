@@ -21,7 +21,8 @@ It is assumed you have access to the idf.py command line tool. Once the IDF rele
 4. run idf.py menuconfig, and set the parameters to your needs. It is recommended use PSRAM where possible.
 5. cd back to root of the repo, and run idf.py /dev/yourport flash monitor
 6. in monitor, you should get an IP address. To test that the web server is running, view this in your browser at IP.ADDRESS.YES.YES/image.
-7. in another terminal, go into the ml directory and run ml.py.
+7. do a pip install -r requirements.txt in a virtual environment (docker or python virtualenv))
+8. in another terminal, go into the ml directory and run ml.py. Note that more packages could be installed and the size is pretty hefty (>2GB at least).
 
 # Contributors
 Rhett: Spellchecking and Designer
