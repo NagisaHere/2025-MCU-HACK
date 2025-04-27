@@ -65,6 +65,11 @@ static esp_err_t init_camera(void)
     {
         return err;
     }
+
+    sensor_t* s = esp_camera_sensor_get();
+    s->set_vflip(s, 1);
+    s->set_hmirror(s, 1);
+
     return ESP_OK;
 }
 
