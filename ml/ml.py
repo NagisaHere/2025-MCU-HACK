@@ -36,9 +36,14 @@ dest_lang     = 'pt'
 reader        = easyocr.Reader(['en'], gpu=False)  # set gpu=True if you have CUDA
 
 # Burst settings
-URL          = "http://192.168.139.201/image"
+URL          = "http://192.168.139.201/image" # replace with ip of your server
 BURST_COUNT  = 5
 BURST_DELAY  = 0.01  # seconds
+
+# arduino button settings
+RUN_WITH_BUTTON = False # for button presses
+ARDUINO_PORT = "/dev/ttyUSB0" # replace with your port
+BUTTON_PIN = 2
 
 def speak_natural(text: str, lang: str = 'pt'):
     """Generate a temporary MP3 via gTTS and play it."""
@@ -89,6 +94,23 @@ def ocr_with_easyocr(img: np.ndarray) -> list[str]:
     return tokens
 
 # --- Burst-capture via HTTP GET with display ---
+
+if (RUN_WITH_BUTTON):
+    import pyfirmata
+    print("initialising board")
+    board = pyfirmata.Arduino(ARDUINO_PORT);
+    board.digital[BUTTON_PIN].mode = pyfirmata.INPUT
+    iter8 = pyfirmata.util.Iterator(board);
+    iter8.start()
+
+    while (1):
+        # print("reading for button inputs")
+        if board.digital[BUTTON_PIN].read() == 1:
+            # flush the first couple of images
+            for i in range(10):
+                response = requests.get(URL)
+            break
+
 cv2.namedWindow('Burst Capture', cv2.WINDOW_NORMAL)
 print(f"Grabbing {BURST_COUNT} frames via HTTP…")
 captures = []
